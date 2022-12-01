@@ -2,16 +2,33 @@ import {Figure, FigureNames} from "./Figure";
 import {Colors} from "../Colors";
 import {Cell} from "../Cell";
 import blackLogo from "../../assets/black-king.png";
-import WhiteLogo from "../../assets/white-king.png";
+import whiteLogo from "../../assets/white-king.png";
 
-export class King extends Figure{
+export class King extends Figure {
     constructor(color: Colors, cell: Cell) {
         super(color, cell);
-        this.logo = color === Colors.BLACK ? blackLogo : WhiteLogo;
+        this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
         this.name = FigureNames.King;
     }
     canMove(target: Cell): boolean {
+        if(target.figure?.name === FigureNames.King && target.figure?.color) console.log(target);
         if(!super.canMove(target)) return false;
-        return true;
+        const isVerticalMove = (target.y === this.cell.y + 1 || target.y === this.cell.y - 1) && target.x === this.cell.x;
+        const isHorizontalMove = (target.x === this.cell.x + 1 || target.x === this.cell.x - 1) && target.y === this.cell.y;
+        const isLeftDiagonal = (
+            (target.x === this.cell.x + 1 && target.y === this.cell.y + 1)
+            || (target.x === this.cell.x - 1 && target.y === this.cell.y - 1)
+        )
+        const isRightDiagonal = (
+            (target.x === this.cell.x + 1 && target.y === this.cell.y - 1)
+            || (target.x === this.cell.x - 1 && target.y === this.cell.y + 1)
+        )
+
+        if(isVerticalMove
+            || isHorizontalMove
+            || isLeftDiagonal
+            || isRightDiagonal) return true;
+
+        return false;
     }
 }

@@ -57,6 +57,13 @@ constructor(board: Board, x:number,y:number, color:Colors,figure:Figure|null) {
         return true
     }
 
+    isEnemy(target: Cell): boolean {
+        if (target.figure) {
+            return this.figure?.color !== target.figure.color;
+        }
+        return false;
+    }
+
     isEmptyDiagonal(target:Cell):boolean{
         const absX = Math.abs(target.x - this.x)
         const absY = Math.abs(target.y - this.y)
